@@ -1,1 +1,0 @@
-{"version":3,"file":"customer-dto.js","sourceRoot":"","sources":["../../src/dtos/customer-dto.ts"],"names":[],"mappings":";;AAAA,MAAqB,WAAW;IAI9B,YAAY,KAAU;QACpB,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC,KAAK,IAAI,IAAI,CAAC;QACjC,IAAI,CAAC,IAAI,GAAG,KAAK,CAAC,IAAI,IAAI,IAAI,CAAC;IACjC,CAAC;CACF;AARD,8BAQC"}
