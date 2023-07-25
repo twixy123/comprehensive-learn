@@ -6,7 +6,7 @@ export default class AuthService {
       return import("./auth-service/set-auth-data").then((module) => module.setAuthData(payload));
     },
     resetAuthData () {
-      return import("./auth-service/reset-auth-data").then((module) => module.resetAuthData());
+      return import("./auth-service/reset-auth-data").then(async (module) => await module.resetAuthData());
     },
   };
 }

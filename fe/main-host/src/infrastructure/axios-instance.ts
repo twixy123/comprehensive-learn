@@ -1,7 +1,8 @@
 import axios from "axios";
 import type { IAuthResponse } from "./auth/auth.types";
 
-export const VITE_API_URL = import.meta.env.VITE_API_URL;
+export const VITE_API_URL = window.VITE_API_URL;
+
 
 const instance = axios.create({
   baseURL: VITE_API_URL,

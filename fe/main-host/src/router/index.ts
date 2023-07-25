@@ -83,9 +83,12 @@ const router = createRouter({
 
 async function beforeEachRoute (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
   try {
-    const authResponse = await $infra.auth.checkAuth();
+    if (!localStorage.getItem("token")) {
+      const authResponse = await $infra.auth.checkAuth();
+  
+      await $service.auth.setAuthData(authResponse);
+    }
 
-    $service.auth.setAuthData(authResponse);
     next();
   } catch (error) {
     next("/auth");
@@ -96,7 +99,7 @@ async function beforeAuthRoute (next: NavigationGuardNext) {
   try {
     await $infra.auth.logout();
 
-    $service.auth.resetAuthData();
+    await $service.auth.resetAuthData();
   } catch (error) {
     console.log(error);
   } finally {

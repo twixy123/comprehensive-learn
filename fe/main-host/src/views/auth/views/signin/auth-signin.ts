@@ -25,7 +25,8 @@ export default defineComponent({
       try {
         const authResponse = await $infra.auth.login(formDataPayload);
 
-        $service.auth.setAuthData(authResponse);
+        await $service.auth.setAuthData(authResponse);
+        
         router.push({ name: "home" });
       } catch (error) {
         console.log("erroe auth signin", error);
