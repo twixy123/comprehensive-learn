@@ -27,5 +27,5 @@ coverage
 *.sln
 *.sw?
 
-.env
-public/config.js
+#.env
+#public/config.js
