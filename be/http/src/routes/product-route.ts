@@ -1,7 +1,12 @@
-import { Router } from "express";
-import { body } from "express-validator";
+import {Request, Router} from "express";
+import {body} from "express-validator";
+
+import {trace} from "@opentelemetry/api";
 
 import productController from "../controllers/product-controller";
+import opentelemetryMiddleware from "../middleware/opentelemetry-middleware";
+
+const tracer = trace.getTracer("product-controller")
 
 const router = Router();
 
@@ -13,8 +18,15 @@ router.post(
   productController.addProduct
 );
 
-router.get("/", productController.getProducts);
-router.get("/:uuid", productController.getOneProduct);
+router.get("/",
+  (req: Request, res, next) => {
+    return opentelemetryMiddleware(req, () => productController.getProducts(req, res, next))
+  }
+);
+router.get("/:uuid",
+  (req: Request, res, next) => {
+    return opentelemetryMiddleware(req, () => productController.getOneProduct(req, res, next))
+  });
 router.put("/:uuid", productController.updateProduct);
 router.delete("/:uuid", productController.deleteProduct);
 

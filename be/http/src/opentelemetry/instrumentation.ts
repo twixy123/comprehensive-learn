@@ -1,29 +1,25 @@
-import { NodeSDK } from '@opentelemetry/sdk-node';
-import {
-  BasicTracerProvider,
-  BatchSpanProcessor,
-  ConsoleSpanExporter
-} from '@opentelemetry/sdk-trace-node';
+import * as opentelemetry from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import {
   PeriodicExportingMetricReader,
-  ConsoleMetricExporter,
 } from '@opentelemetry/sdk-metrics';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import {OTLPTraceExporter} from "@opentelemetry/exporter-trace-otlp-proto";
+import {OTLPMetricExporter} from "@opentelemetry/exporter-metrics-otlp-proto";
 
-const provider = new BasicTracerProvider();
-provider.addSpanProcessor(new BatchSpanProcessor(new ConsoleSpanExporter()));
-provider.register();
-
-const sdk = new NodeSDK({
+const sdk = new opentelemetry.NodeSDK({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'http_JWT_Auth',
-    [SemanticResourceAttributes.SERVICE_VERSION]: '1.0',
+    [SemanticResourceAttributes.SERVICE_NAME]: 'HTTP_JWT_AUTH',
+    [SemanticResourceAttributes.SERVICE_VERSION]: '0.1.0',
   }),
-  traceExporter: new ConsoleSpanExporter(),
+  traceExporter: new OTLPTraceExporter({
+    url: "http://localhost:4318/v1/traces",
+  }),
   metricReader: new PeriodicExportingMetricReader({
-    exporter: new ConsoleMetricExporter(),
+    exporter: new OTLPMetricExporter({
+      url: "http://localhost:4318/v1/metrics"
+    }),
   }),
   instrumentations: [getNodeAutoInstrumentations()],
 });
