@@ -1,10 +1,23 @@
-import { Router } from "express";
+import {NextFunction, Request, Response, Router} from "express";
 const router = Router();
-import swaggerUI from "swagger-ui-express";
-import swaggerDocument from "../swagger/index.json"
-import authController from "../controllers/auth-controller";
+import swaggerUI, {JsonObject} from "swagger-ui-express";
+import yaml from "js-yaml"
+import fs from "fs"
 
 router.use("/", swaggerUI.serve)
-router.get("/", swaggerUI.setup(swaggerDocument));
+router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    swaggerUI.setup(
+      yaml.load(
+        fs.readFileSync(
+          `${__dirname}/../swagger/index.yaml`,
+          'utf8'
+        )
+      ) as JsonObject
+    )(req, res, next)
+  } catch (e) {
+    next(e)
+  }
+});
 
 export default router;
