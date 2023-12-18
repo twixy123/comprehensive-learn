@@ -11,6 +11,7 @@ const instance = axios.create({
   headers: {
     Accept: "application/json; charset=UTF-8",
     "Content-Type": "application/json; charset=UTF-8",
+    "X-Request-ID": new Date().getTime(),
   },
 });
 
