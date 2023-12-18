@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+service TechMarket {
+  // Зарегестрироваться
+  rpc Registration(CustomerAuthRequestPayload) returns (AuthResponse);
+  // Авторизоваться
+  rpc Authentication(CustomerAuthRequestPayload) returns (AuthResponse);
+  // Обновить данные пользователя
+  rpc UpdateCustomer(CustomerUpdateRequestPayload) returns (Customer);
+}
+
+
+
+message Customer {
+  string uuid = 1;
+  string email = 2;
+  string name = 3;
+  string surname = 4;
+  int32 age = 5;
+}
+
+message AuthResponse {
+  Customer customer = 1;
+  string accessToken = 2;
+  string refreshToken = 3;
+}
+
+message CustomerAuthRequestPayload {
+  string email = 1;
+  string password = 2;
+}
+
+message CustomerUpdateRequestPayload {
+  string email = 1;
+  string name = 2;
+  string surname = 3;
+  int64 age = 4;
+}
