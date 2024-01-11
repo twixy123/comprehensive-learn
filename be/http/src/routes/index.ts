@@ -11,7 +11,7 @@ const router = Router();
 
 router.use("/", authRouter)
 router.use("/customer", authMiddleware, customerRouter);
-router.use("/product", authMiddleware, productRouter);
+router.use("/product", productRouter);
 router.use("/test", (res, req) => {
   req.json([123, 123, 123])
 });
