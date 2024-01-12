@@ -18,7 +18,11 @@ class ProductService {
   async getProducts() {
     const productResponse = await dbQuery(`SELECT * FROM product`);
 
-    return productResponse.rows;
+    if (productResponse.rows.length) {
+      return productResponse.rows;
+    } else {
+      throw ApiError.BadRequest("Что-то кого-то там");
+    }
   }
 
   async getOneProduct(uuid: string) {

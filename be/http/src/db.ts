@@ -10,6 +10,6 @@ const pool = new Pool({
   database: config.DB_NAME
 });
 
-const query = (text: string, params?: any[]) => pool.query(text, params);
+const query = async (text: string, params?: any[]) => pool.query(text, params);
 
 export default query;

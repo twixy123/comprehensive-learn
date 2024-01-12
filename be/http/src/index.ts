@@ -8,6 +8,7 @@ import config from "./config";
 
 import apiRouter from "./routes";
 import errorsMiddleware from "./middleware/error-middleware";
+import { addXRequestId } from "./middleware/opentelemetry-middleware";
 
 const PORT = config.PORT;
 
@@ -22,6 +23,7 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
+app.use(addXRequestId)
 app.use("/api", apiRouter);
 app.use(errorsMiddleware);
 
