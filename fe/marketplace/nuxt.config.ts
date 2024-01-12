@@ -2,14 +2,19 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
-    apiSecret: "",
     public: {
-      apiBase: "",
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || "http://localhost:3000/api",
     }
   },
-  app: {
-    pageTransition: { name: "rotate", mode: "out-in" },
-    layoutTransition: { name: "rotate", mode: "in-out" }
+  devServer: {
+    port: 8081,
   },
-  css: ['~/assets/scss/main.scss']
+  app: {
+    pageTransition: { name: "transition", mode: "out-in" },
+    layoutTransition: { name: "transition", mode: "in-out" }
+  },
+  css: ['~/assets/scss/main.scss'],
+  modules: [
+    '@nuxtjs/tailwindcss'
+  ]
 })
