@@ -1,0 +1,27 @@
+{
+  "name": "grpc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:server": "ts-node-dev --respawn --transpile-only server/app.ts",
+    "start:client": "ts-node-dev --respawn --transpile-only client/app.ts",
+    "db:migrate": "npx prisma migrate dev --name post-entity --create-only --schema ./server/prisma/schema.prisma",
+    "db:generate": " npx prisma generate --schema ./server/prisma/schema.prisma",
+    "db:push": "npx prisma db push --schema ./server/prisma/schema.prisma"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prisma": "5.1.1",
+    "ts-node-dev": "2.0.0",
+    "typescript": "5.1.6"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "1.9.0",
+    "@grpc/proto-loader": "0.7.8",
+    "@prisma/client": "5.1.1",
+    "dotenv": "16.3.1"
+  }
+}

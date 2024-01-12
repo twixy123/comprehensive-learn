@@ -1,3 +1,6 @@
+import {AuthResponse, CustomerAuthRequestPayload} from "@/grpc/code-gen/tech-market_pb.js";
+import {TechMarketClient} from "@/grpc/code-gen/Tech-marketServiceClientPb";
+
 import { defineComponent, ref } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import $infra from "@/infrastructure/index";
@@ -15,7 +18,7 @@ export default defineComponent({
   },
 
   setup () {
-    const router = useRouter();    
+    const router = useRouter();
     const msg = "Регистрация";
     const loading = ref(false);
 
@@ -23,9 +26,12 @@ export default defineComponent({
       loading.value = true;
 
       try {
-        const authResponse = await $infra.auth.signup(formDataPayload);
+        // const authResponse = await $infra.auth.signup(formDataPayload);
+        const authResponse = await getOrder(formDataPayload);
 
-        $service.auth.setAuthData(authResponse);
+        // eslint-disable-next-line no-console
+        console.log("authResponse", authResponse);
+        // $service.auth.setAuthData(authResponse);
         router.push({ name: "main-profile-update" });
       } catch (error) {
         console.log("erroe auth signup", error);
@@ -33,6 +39,24 @@ export default defineComponent({
         loading.value = false;
       }
     };
+
+    function getOrder(formDataPayload: IAuthRequest): Promise<AuthResponse.AsObject> {
+      const client = new TechMarketClient("http://localhost:3000");
+      const request = new CustomerAuthRequestPayload();
+
+      request.setEmail(formDataPayload.email)
+      request.setPassword(formDataPayload.password)
+
+      return client
+        .registration(request, null)
+        .then((response: AuthResponse) => {
+          return response.toObject();
+        })
+        .catch((err) => {
+          console.error(err.message);
+          throw new Error(err.message);
+        });
+    }
 
     return {
       RouterLink,
